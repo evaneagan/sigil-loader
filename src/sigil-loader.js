@@ -50,6 +50,10 @@ class SigilLoader {
 			return;
 		}
 
+		if (!document.documentElement.classList.contains("preload")) {
+  		document.documentElement.classList.add("preload");
+		}
+
 		localStorage.setItem("hasVisited", "true");
 
 		// Show the loader immediately
