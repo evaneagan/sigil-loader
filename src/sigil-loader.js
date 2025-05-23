@@ -46,24 +46,14 @@ class SigilLoader {
 
 init() {
   if (this.config.skipOnRepeat && localStorage.getItem("hasVisited")) {
-    this._skipLoader();
+    this._skipLoader(); // will hide loader manually if needed
     return;
-  }
-
-  // Ensure preload is applied immediately if not already
-  if (!document.documentElement.classList.contains("preload")) {
-    document.documentElement.classList.add("preload");
   }
 
   localStorage.setItem("hasVisited", "true");
 
-  // Show the loader immediately
   document.body.classList.add("loading");
 
-  // Remove preload immediately so loader can appear now (not after delay)
-  document.documentElement.classList.remove("preload");
-
-  // Delay milestone tracking (not loader appearance)
   setTimeout(() => {
     if (typeof this.config.hooks.onStart === "function") {
       this.config.hooks.onStart();
@@ -75,6 +65,7 @@ init() {
     this._setupUnicornLoader();
   }, this.config.delay * 1000);
 }
+
 
 
 	_skipLoader() {
