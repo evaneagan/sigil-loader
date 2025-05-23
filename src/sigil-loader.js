@@ -44,34 +44,38 @@ class SigilLoader {
 		this.$percent = document.querySelector(this.config.percentSelector);
 	}
 
-	init() {
-		if (this.config.skipOnRepeat && localStorage.getItem("hasVisited")) {
-			this._skipLoader();
-			return;
-		}
+init() {
+  if (this.config.skipOnRepeat && localStorage.getItem("hasVisited")) {
+    this._skipLoader();
+    return;
+  }
 
-		if (!document.documentElement.classList.contains("preload")) {
-  		document.documentElement.classList.add("preload");
-		}
+  // Ensure preload is applied immediately if not already
+  if (!document.documentElement.classList.contains("preload")) {
+    document.documentElement.classList.add("preload");
+  }
 
-		localStorage.setItem("hasVisited", "true");
+  localStorage.setItem("hasVisited", "true");
 
-		// Show the loader immediately
-		document.documentElement.classList.remove("preload");
-		document.body.classList.add("loading");
+  // Show the loader immediately
+  document.body.classList.add("loading");
 
-		// Then delay milestone tracking
-		setTimeout(() => {
-			if (typeof this.config.hooks.onStart === "function") {
-				this.config.hooks.onStart();
-			}
+  // Remove preload immediately so loader can appear now (not after delay)
+  document.documentElement.classList.remove("preload");
 
-			this._setupDOMListener();
-			this._setupFontListener();
-			this._setupImageLoader();
-			this._setupUnicornLoader();
-		}, this.config.delay * 1000);
-	}
+  // Delay milestone tracking (not loader appearance)
+  setTimeout(() => {
+    if (typeof this.config.hooks.onStart === "function") {
+      this.config.hooks.onStart();
+    }
+
+    this._setupDOMListener();
+    this._setupFontListener();
+    this._setupImageLoader();
+    this._setupUnicornLoader();
+  }, this.config.delay * 1000);
+}
+
 
 	_skipLoader() {
 		if (this.$loader) {
