@@ -1,0 +1,11 @@
+{
+  "name": "sigil-loader",
+  "version": "1.0.0",
+  "main": "dist/sigil-loader.min.js",
+  "description": "A simple loading screen system for Webflow projects.",
+  "author": "Evan Eagan",
+  "license": "MIT",
+  "scripts": {
+    "build": "terser src/sigil-loader.js -c -m -o dist/sigil-loader.min.js"
+  }
+}
